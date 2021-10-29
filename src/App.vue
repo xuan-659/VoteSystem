@@ -15,9 +15,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  html {
-    margin: 0;
-    height: 1000px;
-    background-color: rgb(90, 41, 41);
-  }
+
 </style>

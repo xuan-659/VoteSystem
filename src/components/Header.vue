@@ -7,7 +7,6 @@
         <el-image
         class="harmony-logo"
         :src="logoUrl"
-        :fit="cover"
       ></el-image>
       </router-link>
       <!-- 右侧图标+按钮 -->
@@ -46,6 +45,7 @@ export default {
 <style lang="scss" scoped>
 @import '../style/vars.scss';
   .header {
+    min-height: 60px;
     height: $header_height;
     width: auto;
     background-color: #409EFF;
@@ -54,8 +54,8 @@ export default {
       margin-left: $main_margin_left;
       height: inherit;
       .harmony-logo {
-        height: 6vh;
-        margin-top: 1vh;
+        height: 40px;
+        margin-top: 10px;
       }
 
       .main-right {

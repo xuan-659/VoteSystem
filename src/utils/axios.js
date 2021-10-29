@@ -70,6 +70,5 @@ _axios.interceptors.response.use(
 export default {
   install: (app,options) => {
     app.config.globalProperties.$axios = _axios;
-    console.log(app.config);
   }
 }
