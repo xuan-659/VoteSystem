@@ -1,12 +1,8 @@
-import { createStore } from 'vuex'
-
+import { createStore} from 'vuex'
+import vote from './modules/vote' 
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
+    vote
   }
 })
+
