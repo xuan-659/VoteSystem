@@ -1,13 +1,25 @@
 <template>
-  <div>Manage</div>
-</template>
+    <div>
+      <div>{{ count }}</div>
+      <button @click="increment">count++</button>
+    </div>
+  </template>
 
-<script>
-export default {
+  <script>
+    import { reactive } from 'vue'
 
-}
-</script>
+    export default {
+      setup() {
+        let count = reactive({
+          num: 0
+        })
 
-<style>
+        const increment = () => count.num++
 
-</style>
+        return {
+          count,
+          increment
+        }
+      }
+    }
+  </script>

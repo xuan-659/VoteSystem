@@ -55,7 +55,7 @@ export default {
 @import '@/style/vars.scss';
   .home-page {
     background-color: #f3f3f3;
-    height:92vh;
+    min-height:91vh;
   
     .main {
       width: $main_width;
