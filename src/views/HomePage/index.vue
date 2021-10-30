@@ -7,29 +7,43 @@
         <el-button type="primary" @click="create">创建</el-button>
         <h3>Harmony是安排多人投票的最快方式。并且完全免费！</h3>
       </div>
-      <div class="main-right"></div>
+      <div class="main-right">
+         <el-image
+         class="image"
+        :src="image.url"
+        :fit="image.fit"
+      ></el-image>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 import {ref} from 'vue'
-import { computed, watch } from "vue";
 
 export default {
   name: "HomePage",
   setup() {
     const store = useStore();
-    const title = ref('');
+    const router = useRouter();
+    const title = ref('');          //输入的标题
+    const image = {
+      url: require('@/assets/images/homepage_photo.jpeg'),
+      fit : "fill",
+
+    }
     function create() {
       store.commit('SET_TITLE',title);
-      console.log(store.getters);
+      router.push('./createVote');
     }
+
 
     return {
       title,
-      create
+      create,
+      image
     };
   },
 
@@ -55,14 +69,16 @@ export default {
       .main-left {
         width: 500px;
         height: 333px;
-        h1{font:500 70px '黑体';
-        color:black;
-        margin: 0px auto auto 7px ;
+        h1 {
+          font:500 70px '黑体';
+          color:black;
+          margin: 0px auto auto 7px ;
 
         }
-        h3{font:700 29px '宋体';
-        margin: 57px auto auto 7px ;
-        color:black;
+        h3 {
+          font:700 29px '宋体';
+          margin: 57px auto auto 7px ;
+          color:black;
         }
 
 
@@ -70,26 +86,22 @@ export default {
       .main-right {
         width: 500px;
         height: 333px;
-         background-size: 100% 100%;
-         box-shadow: 0 0 10px #83837a;
-
-     background-image: url("https://images.pexels.com/photos/4964766/pexels-photo-4964766.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
-
-
+        background-size: 100% 100%;
+        box-shadow: 0 0 10px #83837a;
       }
     }
     
   }
 </style>
 <style scoped>
-.main-left>>>.el-input{
+.main-left:deep(.el-input){
   width: 80%;
 }
-.main-left>>>.el-input__inner{
+.main-left:deep(.el-input__inner){
   height:55px;
    margin: 69px auto auto 5px ;
 }
-.main-left>>>.el-button{
+.main-left:deep(.el-button){
   min-height: 55px;
 
 }

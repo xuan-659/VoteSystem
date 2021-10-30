@@ -28,16 +28,14 @@
 </template>
 
 <script>
-import '@/icon/iconfont.js'
+import '@/assets/icon/iconfont.js'
 export default {
   name: 'Header',
-  data: () => {
+  setup: () => {
+    const logoUrl = require('@/assets/images/harmony_logo.png')
     return {
-      logoUrl: require('@/assets/harmony_logo.png')
+      logoUrl,
     }
-  },
-  methods: {
-
   }
 }
 </script>
