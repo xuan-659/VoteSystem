@@ -58,8 +58,9 @@ export default {
     height:92vh;
   
     .main {
-
       width: $main_width;
+      min-width: $min_width;
+      min-height: $min_height;
       height: inherit;
       margin-left: $main_margin_left;
       display: flex;
