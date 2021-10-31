@@ -1,14 +1,14 @@
 <template>
   <div class="create-vote">
     <div class="main">
-      <h1>创建您的投票</h1>
+      <h1>创建您的投票!</h1>
       
       <div class="form">
         <el-form ref="submitForm"
          :label-position="form.labelPosition"
          v-model="form"
           label-width="200px">
-          <p>您的投票主题是？</p>
+          <p>您的投票主题是</p>
           <el-form-item label="">
             <el-input v-model="form.title"></el-input>
           </el-form-item>
@@ -29,14 +29,14 @@
                 v-model="form.describe"
                 :rows="2"
                 type="textarea"
-                placeholder="Please input"
+                placeholder="Description of your subject"
               />
           </el-form-item>
-          <p>名字</p>
+          <p>输入您的名字</p>
           <el-form-item label="">
-            <el-input v-model="form.username"></el-input>
+            <el-input id="username_space" v-model="form.username"></el-input>
           </el-form-item>
-          <el-button @click="createVote" id="create" >创建</el-button>
+          <el-button type="primary" @click="createVote" id="create" >创建</el-button>
         </el-form>
       </div>
     </div>
@@ -86,7 +86,7 @@ export default {
 
     const resetForm = () => {
       form.labelPosition = 'top';
-      form.title = title.value;
+      form.title = store.getters.title.title;
       form.options = [
         {key: 1, value: ''},
         {key: 2, value: ''}
@@ -134,21 +134,19 @@ export default {
 
      }
     .form {
-      background-color: pink;
+      background-color: rgb(151, 216, 241);
       width: 600px;
       margin: 50px;
       p{
         margin: 15px auto 10px 20px;
+        width:200px;
       }
     }
     &:deep(.el-input){
       width: 80%;
       margin-left: 20px;
     }
-    // &:deep(.el-button){
-    //   margin-left:15px ;
-      
-    // }
+
     &:deep(.el-textarea){
       margin-left:20px;
       width:80%;
@@ -161,7 +159,9 @@ export default {
         margin: auto 100px auto 310px;
   }
   #create{
-
+      margin-left:200px ;
+      margin-top:20px;
+      padding:12px 80px;
   }
   #delete{
     margin-left: 15px;
