@@ -2,7 +2,6 @@
   <div class="create-vote">
     <div class="main">
       <h1 @click="addOption">创建一个投票</h1>
-      
       <div class="form">
         <el-form ref="submitForm"
          :label-position="form.labelPosition"
@@ -24,13 +23,13 @@
             <el-button @click="resetForm()">重置</el-button>
             <el-form-item label="对主题进行描述">
               <el-input
-                v-model="form.textarea"
+                v-model="form.describe"
                 :rows="2"
                 type="textarea"
                 placeholder="Please input"
               />
           </el-form-item>
-          <el-button >创建</el-button>
+          <el-button @click="createVote()">创建</el-button>
         </el-form>
       </div>
     </div>
@@ -46,17 +45,16 @@ export default {
     //data数据
     const store = useStore();
     //投票标题
-    const title = store.getters.title || '';
     const max_length = 8;
     //投票表单
     let form = reactive({
       labelPosition:'top',
-      title: title.value,
+      title: store.getters.title.title,
       options: [
         {key: 1, value: '',lable:'选项'},
         {key: 2, value: ''}
       ],
-      textarea:''
+      describe:''
     })
     //method方法
     const addOption = () => {
@@ -83,8 +81,12 @@ export default {
         {key: 1, value: '',lable:'选项'},
         {key: 2, value: ''}
       ];
-      form.textarea = '';
+      form.describe = '';
 
+    }
+
+    const createVote = () => {
+      store.dispatch('addVote',form);
     }
 
 
@@ -92,7 +94,8 @@ export default {
       form,
       addOption,
       removeOption,
-      resetForm
+      resetForm,
+      createVote,
     }
   }
 }

@@ -1,4 +1,5 @@
-import { createStore} from 'vuex'
+import { createStore } from 'vuex'
+import { addVoteApi } from '@/api/vote'
 
 const state = {
   title: '',
@@ -11,7 +12,16 @@ const mutations = {
 }
 
 const actions = {
-  
+  addVote({commit} ,data) {
+    const {title, describe, options:select} = data;
+    console.log(title,describe,select);
+    return addVoteApi({
+      describe,
+      select,
+      title,
+      username
+    })
+  }
 }
 
 const getters = {
@@ -26,4 +36,3 @@ const store = createStore({
 })
 
 export default store;
-
