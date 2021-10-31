@@ -10,7 +10,7 @@ const config = {
   timeout: 6000 // request timeout
 }
 
-const _axios = axios.create(config);
+export const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   config => {
@@ -67,6 +67,8 @@ _axios.interceptors.response.use(
       return Promise.reject(error);
     }
 );
+
+
 
 export default {
   install: (app,options) => {

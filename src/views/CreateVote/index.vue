@@ -1,27 +1,30 @@
 <template>
   <div class="create-vote">
     <div class="main">
-      <h1 @click="addOption">创建一个投票</h1>
+      <h1>创建您的投票</h1>
+      
       <div class="form">
         <el-form ref="submitForm"
          :label-position="form.labelPosition"
          v-model="form"
           label-width="200px">
-          
-          <el-form-item label="您的投票主题是？">
+          <p>您的投票主题是？</p>
+          <el-form-item label="">
             <el-input v-model="form.title"></el-input>
           </el-form-item>
+          <p>选项</p>
           <el-form-item
                 v-for="option in form.options"
                 :key="option.key"
-                :label="option.lable"
+                label=""
               >
               <el-input v-model="option.value"></el-input>
-              <el-button v-if="!option.lable" @click.prevent="removeOption(option)">删除</el-button>
+              <el-button id="delete" @click.prevent="removeOption(option)">删除</el-button>
             </el-form-item>
-            <el-button @click="addOption()">添加一个选项</el-button>
-            <el-button @click="resetForm()">重置</el-button>
-            <el-form-item label="对主题进行描述">
+            <el-button id="add" @click="addOption()">添加选项</el-button>
+            <el-button id="reset" @click="resetForm()">重置</el-button>
+            <p>对主题进行描述</p>
+            <el-form-item label="">
               <el-input
                 v-model="form.describe"
                 :rows="2"
@@ -29,7 +32,11 @@
                 placeholder="Please input"
               />
           </el-form-item>
-          <el-button @click="createVote()">创建</el-button>
+          <p>名字</p>
+          <el-form-item label="">
+            <el-input v-model="form.username"></el-input>
+          </el-form-item>
+          <el-button @click="createVote" id="create" >创建</el-button>
         </el-form>
       </div>
     </div>
@@ -40,18 +47,21 @@
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 export default {
  setup() {
     //data数据
     const store = useStore();
+    const router = useRouter();
     //投票标题
     const max_length = 8;
     //投票表单
     let form = reactive({
       labelPosition:'top',
       title: store.getters.title.title,
+      username: '',
       options: [
-        {key: 1, value: '',lable:'选项'},
+        {key: 1, value: ''},
         {key: 2, value: ''}
       ],
       describe:''
@@ -78,18 +88,17 @@ export default {
       form.labelPosition = 'top';
       form.title = title.value;
       form.options = [
-        {key: 1, value: '',lable:'选项'},
+        {key: 1, value: ''},
         {key: 2, value: ''}
       ];
       form.describe = '';
-
+      form.username = '';
     }
 
     const createVote = () => {
       store.dispatch('addVote',form);
+      // router.push('/joinVote')
     }
-
-
     return {
       form,
       addOption,
@@ -119,12 +128,42 @@ export default {
     align-content: flex-end;
     justify-content: flex-start;
     align-items: center;
+     h1{
+       font-size: 50px;
+       margin: 30px auto 0px auto ;
+
+     }
     .form {
       background-color: pink;
-      width: 800px;
+      width: 600px;
+      margin: 50px;
+      p{
+        margin: 15px auto 10px 20px;
+      }
     }
     &:deep(.el-input){
       width: 80%;
+      margin-left: 20px;
     }
+    // &:deep(.el-button){
+    //   margin-left:15px ;
+      
+    // }
+    &:deep(.el-textarea){
+      margin-left:20px;
+      width:80%;
+    }
+  }
+  #add{
+        margin: auto auto 30px 20px;
+      }
+  #reset{
+        margin: auto 100px auto 310px;
+  }
+  #create{
+
+  }
+  #delete{
+    margin-left: 15px;
   }
 </style>

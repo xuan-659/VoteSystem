@@ -13,8 +13,8 @@ const mutations = {
 
 const actions = {
   addVote({commit} ,data) {
-    const {title, describe, options:select} = data;
-    console.log(title,describe,select);
+    console.log(data);
+    const {title, describe, options:select,username} = data;
     return addVoteApi({
       describe,
       select,
