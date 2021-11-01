@@ -15,10 +15,10 @@
           <p>选项</p>
           <el-form-item
                 v-for="option in form.options"
-                :key="option.key"
+                :key="option.num"
                 label=""
               >
-              <el-input v-model="option.value"></el-input>
+              <el-input v-model="option.selectionText"></el-input>
               <el-button id="delete" @click.prevent="removeOption(option)">删除</el-button>
             </el-form-item>
             <el-button id="add" @click="addOption()">添加选项</el-button>
@@ -61,15 +61,15 @@ export default {
       title: store.getters.title.title,
       username: '',
       options: [
-        {key: 1, value: ''},
-        {key: 2, value: ''}
+        {num: 1, selectionText: '', count: 0},
+        {num: 2, selectionText: '', count: 0}
       ],
       describe:''
     })
     //method方法
     const addOption = () => {
       if(form.options.length < max_length) {
-        form.options.push({key: Date.now(), value:''})
+        form.options.push({num: form.options.length + 1, selectionText:'', count: 0})
       }
       else {
         ElMessage.error('最多八个选项！')
@@ -88,8 +88,8 @@ export default {
       form.labelPosition = 'top';
       form.title = store.getters.title.title;
       form.options = [
-        {key: 1, value: ''},
-        {key: 2, value: ''}
+        {num: 1, selectionText: '', count: 0},
+        {num: 2, selectionText: '', count: 0}
       ];
       form.describe = '';
       form.username = '';

@@ -1,10 +1,10 @@
-// module.exports = {
-//   devServer: {
-//     proxy: {
-//       '/web': {
-//         target: 'http://api.xxxxxxx.cn',
-//         changeOrigin: true
-//       }
-//     }
-//   }
-// }
+module.exports = {
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost8082',
+        changeOrigin: true
+      }
+    }
+  }
+}
