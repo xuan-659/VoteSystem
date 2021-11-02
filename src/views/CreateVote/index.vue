@@ -32,11 +32,6 @@
                 placeholder="Description of your subject"
               />
           </el-form-item>
-          <el-form-item 
-          label="输入您的名字"
-          prop="username">
-            <el-input id="username_space" v-model="form.username"></el-input>
-          </el-form-item>
           <el-button type="primary" @click="createVote" id="create" >创建</el-button>
         </el-form>
       </div>
@@ -58,7 +53,6 @@ export default {
     const rules = reactive({
       title: [{required: true, message:'请输入投票主题', trigger:'blur'}],
       username:[{required: true, message:'请输入用户名', trigger:'blur'}],
-      options: [{required: true, message:'请输入用户名', trigger:'blur'}],
     })
     //投票标题
     const max_length = 8;
@@ -66,7 +60,7 @@ export default {
     let form = reactive({
       labelPosition:'top',
       title: store.getters.title.title,
-      username: '',
+      username: 'root',
       options: [
         {num: 1, selectionText: '', count: 0},
         {num: 2, selectionText: '', count: 0}
@@ -107,6 +101,7 @@ export default {
         console.log(res);
       }).catch(err => console.log(err))
     }
+
     return {
       form,
       addOption,

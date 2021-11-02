@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { addVoteApi } from '@/api/vote'
+import { addVoteApi, getVoteApi } from '@/api/vote'
 
 const state = {
   title: '',
@@ -12,14 +12,35 @@ const mutations = {
 }
 
 const actions = {
-  addVote({commit} ,data) {
+  addVote({commit},data) {
     console.log(data);
     const {title, describe, options:select,username} = data;
-    return addVoteApi({
-      describe,
-      select,
-      title,
-      username
+    return new Promise((resolve, reject) => {
+      addVoteApi({
+        describe,
+        select,
+        title,
+        username
+      }).then(res => {
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+    
+  },
+
+  getData({commit}, data) {
+    const {username} = data;
+    
+    return new Promise((resolve, reject) => {
+      getVoteApi({
+        username
+      }).then(res => {
+        resolve(res.data.data)
+      }).catch(err => {
+        reject(err)
+      })
     })
   }
 }

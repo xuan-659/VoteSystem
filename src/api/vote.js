@@ -10,10 +10,10 @@ export function addVoteApi(data) {
   })
 }
 
-export function getVoteApi() {
-  // console.log(data);
+export function getVoteApi(data) {
+  const {username} = data;
   return request({
-    url:'/vote/s',
+    url:`/vote/${username}`,
     method: 'get',
   })
 }

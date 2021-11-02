@@ -98,7 +98,7 @@ export default {
         {
           num: 4,
           count: 60,
-          selectionText: '梨',
+          selectionText: 'yu',
         }
       ]
     })
@@ -110,7 +110,6 @@ export default {
     })
 
     const compute = computed(() => num => Number((num / voteData.maxCount * 100).toFixed(1)));
-
     const vote = () => {
       submitForm.id = voteData.id;
       submitForm.username = voteData.username;
