@@ -2,7 +2,6 @@
     <div>
       <div class="manage">
         <div class="main">
-          {{form}}
           <el-collapse v-model="activeName" accordion>
               <el-collapse-item
                 v-for="(item,index) in form"
@@ -59,11 +58,20 @@
   </script>
 
   <style lang="scss" scoped>
-    @import '@/style/vars';
+    @import '@/style/vars.scss';
     .main {
     width: $main_width;
     min-width: $min_width;
     min-height: $min_height;
     margin-left: $main_margin_left;
+    &:deep(.el-collapse-item__header){
+      font-size:26px!important;
+    }
+    .card-header{
+      font-size:25px;
+    }
+    &:deep(.el-card__body){
+      font-size:20px;
+    }
   }
   </style>

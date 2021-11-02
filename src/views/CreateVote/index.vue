@@ -10,13 +10,13 @@
           :model="form"
           :rules="rules"
           label-width="200px">
-          <el-form-item label="您的投票主题是" prop="title">
+          <el-form-item class="subject" label="您的投票主题是" prop="title">
             <el-input v-model="form.title"></el-input>
           </el-form-item>
-          <el-form-item
+          <el-form-item class="option"
                 v-for="option in form.options"
                 :key="option.num"
-                :label="option.num == 1 ? '选项' : ''"
+                :label="option.num == 1 ? '&nbsp;&nbsp;选项' : ''"
                 
               >
               <el-input v-model="option.selectionText"></el-input>
@@ -24,7 +24,7 @@
             </el-form-item>
             <el-button id="add" @click="addOption()">添加选项</el-button>
             <el-button id="reset" @click="resetForm()">重置</el-button>
-            <el-form-item label="对主题进行描述">
+            <el-form-item class="describe" label="对主题进行描述" prop="desc">
               <el-input
                 v-model="form.describe"
                 :rows="2"
@@ -52,7 +52,7 @@ export default {
     //校验规则
     const rules = reactive({
       title: [{required: true, message:'请输入投票主题', trigger:'blur'}],
-      username:[{required: true, message:'请输入用户名', trigger:'blur'}],
+      desc:[{required: true, message:'请输入描述', trigger:'blur'}],
     })
     //投票标题
     const max_length = 8;
@@ -141,26 +141,44 @@ export default {
       background-color: rgb(113, 212, 252);
       width: 600px;
       margin: 50px;
-      p{
-        margin: 15px auto 10px 20px;
-        width:200px;
+      .subject{
+        margin: 20px auto 10px 20px;
+        
+      }
+      .describe{
+         margin: 20px auto 10px 30px;
+       }
+      .option{
+        margin: 20px auto 10px 20px;
       }
     }
     &:deep(.el-input){
       width: 80%;
-      margin-left: 20px;
+      margin-left: 15px;
     }
 
     &:deep(.el-textarea){
       margin-left:20px;
       width:80%;
     }
+    &:deep(.el-form-item__error)
+    {
+      margin-left: 20px;
+      font-size:15px;
+      color:brown;
+    }
+    &:deep(.el-textarea__inner){
+      margin-left: -8px;
+    }
+    &:deep(.el-form--label-top .el-form-item__label){
+      font-size:20px;
+    }
   }
   #add{
-        margin: auto auto 30px 20px;
+        margin: 25px auto 30px 36px;
       }
   #reset{
-        margin: auto 100px auto 310px;
+        margin: auto 100px auto 296px;
   }
   #create{
       margin-left:200px ;
