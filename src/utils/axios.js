@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 const config = {
-  baseURL: 'http://localhost:8082',
+  baseURL: 'http://47.113.227.55:8080/',
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   headers: {

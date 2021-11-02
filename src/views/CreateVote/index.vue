@@ -6,25 +6,25 @@
       <div class="form">
         <el-form ref="submitForm"
          :label-position="form.labelPosition"
-         v-model="form"
+          v-model="form"
+          :model="form"
+          :rules="rules"
           label-width="200px">
-          <p>您的投票主题是</p>
-          <el-form-item label="">
+          <el-form-item label="您的投票主题是" prop="title">
             <el-input v-model="form.title"></el-input>
           </el-form-item>
-          <p>选项</p>
           <el-form-item
                 v-for="option in form.options"
                 :key="option.num"
-                label=""
+                :label="option.num == 1 ? '选项' : ''"
+                
               >
               <el-input v-model="option.selectionText"></el-input>
-              <el-button id="delete" @click.prevent="removeOption(option)">删除</el-button>
+              <el-button v-if="option.num!=1" id="delete" @click.prevent="removeOption(option)">删除</el-button>
             </el-form-item>
             <el-button id="add" @click="addOption()">添加选项</el-button>
             <el-button id="reset" @click="resetForm()">重置</el-button>
-            <p>对主题进行描述</p>
-            <el-form-item label="">
+            <el-form-item label="对主题进行描述">
               <el-input
                 v-model="form.describe"
                 :rows="2"
@@ -32,8 +32,9 @@
                 placeholder="Description of your subject"
               />
           </el-form-item>
-          <p>输入您的名字</p>
-          <el-form-item label="">
+          <el-form-item 
+          label="输入您的名字"
+          prop="username">
             <el-input id="username_space" v-model="form.username"></el-input>
           </el-form-item>
           <el-button type="primary" @click="createVote" id="create" >创建</el-button>
@@ -53,6 +54,12 @@ export default {
     //data数据
     const store = useStore();
     const router = useRouter();
+    //校验规则
+    const rules = reactive({
+      title: [{required: true, message:'请输入投票主题', trigger:'blur'}],
+      username:[{required: true, message:'请输入用户名', trigger:'blur'}],
+      options: [{required: true, message:'请输入用户名', trigger:'blur'}],
+    })
     //投票标题
     const max_length = 8;
     //投票表单
@@ -96,8 +103,9 @@ export default {
     }
 
     const createVote = () => {
-      store.dispatch('addVote',form);
-      // router.push('/joinVote')
+      store.dispatch('addVote',form).then(res => {
+        console.log(res);
+      }).catch(err => console.log(err))
     }
     return {
       form,
@@ -105,6 +113,7 @@ export default {
       removeOption,
       resetForm,
       createVote,
+      rules,
     }
   }
 }

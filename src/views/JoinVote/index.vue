@@ -130,6 +130,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/vars';
+  
   .main {
     width: $main_width;
     min-width: $min_width;

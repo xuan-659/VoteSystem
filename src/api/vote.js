@@ -9,3 +9,11 @@ export function addVoteApi(data) {
     data
   })
 }
+
+export function getVoteApi() {
+  // console.log(data);
+  return request({
+    url:'/vote/s',
+    method: 'get',
+  })
+}
