@@ -14,10 +14,12 @@
         <router-link to="/createVote">
           <span class="create">创建</span>
         </router-link>
-        
-        <svg class="icon expand" aria-hidden="true">
+        <router-link to="/manage">
+        <svg @click="manage" class="icon expand" aria-hidden="true">
           <use xlink:href="#icon-icon-test"></use>
         </svg>
+        </router-link>
+        
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-icon-test1"></use>
         </svg>

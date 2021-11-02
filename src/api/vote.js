@@ -17,3 +17,21 @@ export function getVoteApi(data) {
     method: 'get',
   })
 }
+
+export function joinVoteApi(data) {
+  // const {username, id} = data;
+  return request({
+    url:`/vote/id`,
+    method: 'post',
+    data
+  })
+}
+
+export function voteApi(data) {
+  // const {username, id} = data;
+  return request({
+    url:`/vote/submit`,
+    method: 'post',
+    data
+  })
+}

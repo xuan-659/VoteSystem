@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { addVoteApi, getVoteApi } from '@/api/vote'
+import { addVoteApi, getVoteApi, joinVoteApi, voteApi } from '@/api/vote'
 
 const state = {
   title: '',
@@ -22,7 +22,7 @@ const actions = {
         title,
         username
       }).then(res => {
-        resolve(res)
+        resolve(res.data.data)
       }).catch(err => {
         reject(err)
       })
@@ -42,7 +42,40 @@ const actions = {
         reject(err)
       })
     })
+  },
+
+  getVoteData({commit}, data) {
+    const {username, id} = data;
+    
+    return new Promise((resolve, reject) => {
+      joinVoteApi({
+        username,
+        id:Number(id)
+      }).then(res => {
+        resolve(res.data.data)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  vote({commit}, data) {
+    const {username, id, num} = data;
+    
+    return new Promise((resolve, reject) => {
+      voteApi({
+        username,
+        id:Number(id),
+        num
+      }).then(res => {
+        resolve(res.data.data)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
+
+
 }
 
 const getters = {

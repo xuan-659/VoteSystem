@@ -4,13 +4,15 @@
       <h1>调查</h1>
       <p>请在下面投票。 </p>
       <div class="flip-container">
-        <div class="flipper" :class="isAnimation.value">
+        <div class="flipper" v-if="loading">
+            <el-skeleton :rows="5" animated />
+        </div>
+        <div class="flipper" v-else :class="isAnimation.value">
           <div class="front">
             <el-card class="box-card">
               <template #header>
                 <div class="card-header">
                   <span>{{voteData.title}}</span>
-                  <span>——来自{{voteData.username}}的投票</span>
                 </div>
               </template>
               <el-radio-group v-model="submitForm.num">
@@ -28,14 +30,14 @@
               <template #header>
                 <div class="card-header">
                   <span>{{voteData.title}}</span>
-                  <span>——来自{{voteData.username}}的投票</span>
                 </div>
               </template>
                 <div v-for="select in voteData.select" :key="-select.num">
-                  {{select.selectionText}}
-                  <el-progress :percentage="compute(select.count)" :format="format" />
+                  {{select.selectionText}} {{select.count}}票
+                  <el-progress :percentage="voteData.maxCount == 0 ? 0 : Number((select.count / voteData.maxCount * 100).toFixed(2))" :format="format" />
                 </div>
                 <div class="block_rotate">
+                  总票数：{{voteData.maxCount}}
                 <span class="rotate" @click="rotate()">返回</span>
               </div>
             </el-card>
@@ -54,10 +56,17 @@
 </template>
 
 <script>
-import { computed, reactive } from '@vue/reactivity';
+import { ref, reactive } from '@vue/reactivity';
+import { useRoute } from 'vue-router';
+import { onMounted } from '@vue/runtime-core';
+import { useStore } from 'vuex';
 export default {
   setup() {
+    const route = useRoute();
+    const store = useStore()
     //动画部分
+
+
     let isAnimation = reactive({
       value: ''
     });
@@ -73,34 +82,15 @@ export default {
     }
 
     //投票部分
-    const voteData = reactive({
-      id: 2,
-      username: 'xxx',
-      title: '你喜欢吃什么？',
-      describe: '',
-      maxCount: 240,
-      select: [
-        {
-          num: 1,
-          count: 90,
-          selectionText: '苹果'
-        },
-        {
-          num: 2,
-          count: 70,
-          selectionText: '香蕉',
-        },
-        {
-          num: 3,
-          count: 20,
-          selectionText: '梨',
-        },
-        {
-          num: 4,
-          count: 60,
-          selectionText: 'yu',
-        }
-      ]
+    const [username, id] = [route.params.username, route.params.id]
+    let loading = ref(true);
+    let voteData = reactive({
+      id: undefined,
+      username:'root',
+      title: undefined,
+      describe: undefined,
+      maxCount: undefined,
+      select: []
     })
 
     const submitForm = reactive({
@@ -109,23 +99,37 @@ export default {
       num: undefined
     })
 
-    const compute = computed(() => num => Number((num / voteData.maxCount * 100).toFixed(1)));
-    const vote = () => {
+    const getVoteData = async () => {
+      const data = await store.dispatch('getVoteData',{username,id});
+      voteData.id = data.id;
+      voteData.maxCount = data.count;
+      voteData.describe = data.describe;
+      voteData.title = data.title
+      voteData.select = data.select
+      loading.value = false 
+    }
+    const vote = async () => {
       submitForm.id = voteData.id;
       submitForm.username = voteData.username;
-      console.log(submitForm);
+      await store.dispatch('vote', submitForm);
+      voteData.select[submitForm.num - 1].count++;
+      voteData.maxCount++;
+      console.log(voteData.select[submitForm.num - 1].count);
       rotate()
     }
 
     //展示结果部分
-    const format = (percentage) =>
-      percentage === 100 ? 'Full' : `${percentage}%`
+    const format = (percentage) => `${percentage}%`
         
     //图片
     const image = {
       url: require('@/assets/images/JoinVote_photo.jpg'),
       fit : "fill",
     }
+
+    onMounted(() => {
+      getVoteData();
+    })
 
     return {
       isAnimation,
@@ -134,8 +138,8 @@ export default {
       voteData,
       submitForm,
       format,
-      compute,
-      image
+      image,
+      loading
     }
   }
 }

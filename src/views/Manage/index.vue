@@ -2,7 +2,6 @@
     <div>
       <div class="manage">
         <div class="main">
-          {{form}}
           <el-collapse v-model="activeName" accordion>
               <el-collapse-item
                 v-for="(item,index) in form"
@@ -18,7 +17,7 @@
               </template>
                 <div v-for="select in item.select" :key="-select.num">
                   {{select.selectionText}} {{select.count}}票
-                  <el-progress :percentage="item.count == 0 ? 0 : select.count / item.count * 100" :format="format" />
+                  <el-progress :percentage="item.count == 0 ? 0 : Number((select.count / item.count * 100).toFixed(2))" :format="format" />
                 </div>
                 <div class="block_rotate">
                 总票数：{{item.count}}
@@ -39,6 +38,7 @@
       setup() {
         const store = useStore();
         const activeName = ref('1');
+        const format = (percentage) => `${percentage}%`
         let form = ref([])
         const getData = async () => {
           console.log(form.value)
@@ -52,7 +52,8 @@
         
         return {
           activeName,
-          form
+          form,
+          format
         }
       }
     }

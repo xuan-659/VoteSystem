@@ -2,37 +2,45 @@
   <div class="create-vote">
     <div class="main">
       <h1>创建您的投票!</h1>
-      
+
       <div class="form">
-        <el-form ref="submitForm"
-         :label-position="form.labelPosition"
+        <el-form
+          ref="submitForm"
+          :label-position="form.labelPosition"
           v-model="form"
           :model="form"
           :rules="rules"
-          label-width="200px">
+          label-width="200px"
+        >
           <el-form-item label="您的投票主题是" prop="title">
             <el-input v-model="form.title"></el-input>
           </el-form-item>
           <el-form-item
-                v-for="option in form.options"
-                :key="option.num"
-                :label="option.num == 1 ? '选项' : ''"
-                
-              >
-              <el-input v-model="option.selectionText"></el-input>
-              <el-button v-if="option.num!=1" id="delete" @click.prevent="removeOption(option)">删除</el-button>
-            </el-form-item>
-            <el-button id="add" @click="addOption()">添加选项</el-button>
-            <el-button id="reset" @click="resetForm()">重置</el-button>
-            <el-form-item label="对主题进行描述">
-              <el-input
-                v-model="form.describe"
-                :rows="2"
-                type="textarea"
-                placeholder="Description of your subject"
-              />
+            v-for="option in form.options"
+            :key="option.num"
+            :label="option.num == 1 ? '选项' : ''"
+          >
+            <el-input v-model="option.selectionText"></el-input>
+            <el-button
+              v-if="option.num != 1"
+              id="delete"
+              @click.prevent="removeOption(option)"
+              >删除</el-button
+            >
           </el-form-item>
-          <el-button type="primary" @click="createVote" id="create" >创建</el-button>
+          <el-button id="add" @click="addOption()">添加选项</el-button>
+          <el-button id="reset" @click="resetForm()">重置</el-button>
+          <el-form-item label="对主题进行描述">
+            <el-input
+              v-model="form.describe"
+              :rows="2"
+              type="textarea"
+              placeholder="Description of your subject"
+            />
+          </el-form-item>
+          <el-button type="primary" @click="createVote" id="create"
+            >创建</el-button
+          >
         </el-form>
       </div>
     </div>
@@ -42,7 +50,7 @@
 <script>
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 export default {
  setup() {
@@ -96,11 +104,13 @@ export default {
       form.username = '';
     }
 
-    const createVote = () => {
-      store.dispatch('addVote',form).then(res => {
-        console.log(res);
-      }).catch(err => console.log(err))
-    }
+    const createVote = async () => {
+          const data = await store.dispatch('addVote', form);
+          console.log(data);
+          const username = data.username;
+          const id = data.id;
+          router.push(`/joinVote/${username}/${id}`)
+        }
 
     return {
       form,
@@ -111,63 +121,63 @@ export default {
       rules,
     }
   }
+
 }
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/vars.scss';
-  .create-vote {
-    background-color: #f3f3f3;
-    min-height:91vh;
-    padding-bottom: 150px;
+@import "@/style/vars.scss";
+.create-vote {
+  background-color: #f3f3f3;
+  min-height: 91vh;
+  padding-bottom: 150px;
+}
+.main {
+  width: $main_width;
+  min-width: $min_width;
+  min-height: $min_height;
+  margin-left: $main_margin_left;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: flex-end;
+  justify-content: flex-start;
+  align-items: center;
+  h1 {
+    font-size: 50px;
+    margin: 30px auto 0px auto;
   }
-  .main {
-    width: $main_width;
-    min-width: $min_width;
-    min-height: $min_height;
-    margin-left: $main_margin_left;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-content: flex-end;
-    justify-content: flex-start;
-    align-items: center;
-     h1{
-       font-size: 50px;
-       margin: 30px auto 0px auto ;
+  .form {
+    background-color: rgb(113, 212, 252);
+    width: 600px;
+    margin: 50px;
+    p {
+      margin: 15px auto 10px 20px;
+      width: 200px;
+    }
+  }
+  &:deep(.el-input) {
+    width: 80%;
+    margin-left: 20px;
+  }
 
-     }
-    .form {
-      background-color: rgb(113, 212, 252);
-      width: 600px;
-      margin: 50px;
-      p{
-        margin: 15px auto 10px 20px;
-        width:200px;
-      }
-    }
-    &:deep(.el-input){
-      width: 80%;
-      margin-left: 20px;
-    }
-
-    &:deep(.el-textarea){
-      margin-left:20px;
-      width:80%;
-    }
+  &:deep(.el-textarea) {
+    margin-left: 20px;
+    width: 80%;
   }
-  #add{
-        margin: auto auto 30px 20px;
-      }
-  #reset{
-        margin: auto 100px auto 310px;
-  }
-  #create{
-      margin-left:200px ;
-      margin-top:20px;
-      padding:12px 80px;
-  }
-  #delete{
-    margin-left: 15px;
-  }
+}
+#add {
+  margin: auto auto 30px 20px;
+}
+#reset {
+  margin: auto 100px auto 310px;
+}
+#create {
+  margin-left: 200px;
+  margin-top: 20px;
+  padding: 12px 80px;
+}
+#delete {
+  margin-left: 15px;
+}
 </style>

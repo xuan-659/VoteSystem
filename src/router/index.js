@@ -10,7 +10,7 @@ const routes = [
     component: () => import('@/views/CreateVote/index.vue'),
   },
   {
-    path: '/joinVote',
+    path: '/joinVote/:username/:id',
     component: () => import('@/views/JoinVote/index.vue'),
   },
   {
