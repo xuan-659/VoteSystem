@@ -143,7 +143,7 @@ export default {
 
      }
     .form {
-      background-color: rgb(151, 216, 241);
+      background-color: rgb(113, 212, 252);
       width: 600px;
       margin: 50px;
       p{
