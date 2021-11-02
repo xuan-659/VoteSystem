@@ -2,7 +2,7 @@
   <div class="join-vote">
     <div class="main">
       <h1>调查</h1>
-      <p>请在下面投票 </p>
+      <p>请在下面投票。 </p>
       <div class="flip-container">
         <div class="flipper" :class="isAnimation.value">
           <div class="front">
@@ -10,7 +10,7 @@
               <template #header>
                 <div class="card-header">
                   <span>{{voteData.title}}</span>
-                  <span>{{voteData.username}}</span>
+                  <span>——来自{{voteData.username}}的投票</span>
                 </div>
               </template>
               <el-radio-group v-model="submitForm.num">
@@ -18,7 +18,7 @@
                 </el-radio-group>
                 <div>
                 <el-button type="primary" @click="vote">投票</el-button>
-                <span @click="rotate()">显示结果</span>
+                <span class="display_result" @click="rotate()">显示结果</span>
               </div>
             </el-card>
               
@@ -28,19 +28,26 @@
               <template #header>
                 <div class="card-header">
                   <span>{{voteData.title}}</span>
-                  <span>{{voteData.username}}</span>
+                  <span>——来自{{voteData.username}}的投票</span>
                 </div>
               </template>
                 <div v-for="select in voteData.select" :key="-select.num">
                   {{select.selectionText}}
                   <el-progress :percentage="compute(select.count)" :format="format" />
                 </div>
-                <div>
-                <span @click="rotate()">返回</span>
+                <div class="block_rotate">
+                <span class="rotate" @click="rotate()">返回</span>
               </div>
             </el-card>
           </div>
         </div>
+      </div>
+      <div class="right-picture">
+         <el-image
+         class="image"
+        :src="image.url"
+        :fit="image.fit"
+      ></el-image>
       </div>
     </div>
   </div>
@@ -54,6 +61,7 @@ export default {
     let isAnimation = reactive({
       value: ''
     });
+    
 
     function rotate() {
       if(isAnimation.value === 'ani') {
@@ -67,7 +75,7 @@ export default {
     //投票部分
     const voteData = reactive({
       id: 2,
-      username: '李俊鹏',
+      username: 'xxx',
       title: '你喜欢吃什么？',
       describe: '',
       maxCount: 240,
@@ -114,6 +122,11 @@ export default {
     const format = (percentage) =>
       percentage === 100 ? 'Full' : `${percentage}%`
         
+    //图片
+    const image = {
+      url: require('@/assets/images/JoinVote_photo.jpg'),
+      fit : "fill",
+    }
 
     return {
       isAnimation,
@@ -122,7 +135,8 @@ export default {
       voteData,
       submitForm,
       format,
-      compute
+      compute,
+      image
     }
   }
 }
@@ -135,6 +149,23 @@ export default {
     min-width: $min_width;
     min-height: $min_height;
     margin-left: $main_margin_left;
+    h1{
+      font:500 50px "微软雅黑";
+      margin: 50px auto 30px auto;
+      color:rgba(72, 72, 207, 0.897)
+    }
+    p{
+      margin-bottom: 20px;
+      font-size:20px;
+    }
+    .right-picture {
+       position:absolute;
+        top:250px;
+        left:900px;
+        width: 450px;
+        height: 250px;
+        background-size: 100% 100%;      
+      }
   }
   //动画
   .flip-container {
@@ -195,6 +226,22 @@ export default {
       .el-card {
         width: 400px;
         height: 300px;
+        .display_result{
+          margin-left: 195px;
+          color: rgb(118, 164, 248);
+          cursor:pointer;
+          font-size:20px;
+        }
+        .block_rotate{
+          margin-top:40px ;
+          
+        }
+        .rotate{
+          margin-left:150px;
+          color: rgb(118, 164, 248);
+          cursor:pointer;
+          font-size:25px;
+        }
       }
       .el-radio {
         display: block;

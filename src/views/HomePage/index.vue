@@ -32,7 +32,6 @@ export default {
     const image = {
       url: require('@/assets/images/homepage_photo.jpeg'),
       fit : "fill",
-
     }
     function create() {
       store.commit('SET_TITLE',title);
