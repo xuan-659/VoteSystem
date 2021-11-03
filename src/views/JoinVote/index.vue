@@ -60,6 +60,7 @@ import { ref, reactive } from '@vue/reactivity';
 import { useRoute } from 'vue-router';
 import { onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
+import { ElMessage } from 'element-plus'
 export default {
   setup() {
     const route = useRoute();
@@ -109,13 +110,22 @@ export default {
       loading.value = false 
     }
     const vote = async () => {
-      submitForm.id = voteData.id;
-      submitForm.username = voteData.username;
-      await store.dispatch('vote', submitForm);
-      voteData.select[submitForm.num - 1].count++;
-      voteData.maxCount++;
-      console.log(voteData.select[submitForm.num - 1].count);
-      rotate()
+      if(!localStorage.getItem('voted')) {
+        submitForm.id = voteData.id;
+        submitForm.username = voteData.username;
+        localStorage.setItem('voted', true);
+        await store.dispatch('vote', submitForm);
+        voteData.select[submitForm.num - 1].count++;
+        voteData.maxCount++;
+        console.log(voteData.select[submitForm.num - 1].count);
+        rotate()
+      }
+      else {
+        ElMessage({
+        message: '您已投票！',
+        type: 'error',
+      })
+      }
     }
 
     //展示结果部分

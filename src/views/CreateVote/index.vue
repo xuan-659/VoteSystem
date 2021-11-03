@@ -25,7 +25,7 @@
             </el-form-item>
             <el-button id="add" @click="addOption()">添加选项</el-button>
             <el-button id="reset" @click="resetForm()">重置</el-button>
-            <el-form-item class="describe" label="对主题进行描述" prop="desc">
+            <el-form-item class="describe" label="对主题进行描述" prop="describe">
               <el-input
                 v-model="form.describe"
                 :rows="2"
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox  } from 'element-plus'
 import { useStore } from 'vuex'
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -55,8 +55,28 @@ export default {
     //校验规则
     const rules = reactive({
       title: [{required: true, message:'请输入投票主题', trigger:'blur'}],
-      desc:[{required: true, message:'请输入描述', trigger:'blur'}],
+      describe:[{required: true, message:'请输入描述', trigger:'blur'}],
     })
+
+    const validateForm = () => {
+      if(!form.title || !form.describe) {
+        ElMessage({
+        message: '标题或描述为空',
+        type: 'error',
+      })
+        return false;
+      }
+      for(let i of form.options) {
+        if(!i.selectionText) {
+          ElMessage({
+            message: '有选项为空',
+            type: 'error',
+          })
+          return false;
+        }
+      }
+      return true;
+    }
     //投票标题
     const max_length = 8;
     //投票表单
@@ -88,6 +108,8 @@ export default {
       }
     }
 
+    
+
     const resetForm = () => {
       form.labelPosition = 'top';
       form.title = store.getters.title.title;
@@ -100,12 +122,23 @@ export default {
     }
 
     const createVote = async () => {
-          const data = await store.dispatch('addVote', form);
-          console.log(data);
-          const username = data.username;
-          const id = data.id;
-          router.push(`/joinVote/${username}/${id}`)
-        }
+      if(validateForm()) {
+        const data = await store.dispatch('addVote', form);
+        const username = data.username;
+        const id = data.id;
+        ElMessageBox.alert(`http://localhost:8080/joinVote/${username}/${id}`, '复制分享链接', {
+        confirmButtonText: 'OK',
+        callback: (action) => {
+          // ElMessage({
+          //   type: 'info',
+          //   message: `action: ${action}`,
+          // })
+        router.push(`/joinVote/${username}/${id}`)
+
+        },
+      })
+      }
+    }
 
     return {
       form,
