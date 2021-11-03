@@ -185,7 +185,7 @@ export default {
   .flip-container {
 	perspective: 1000;
   width: 400px;
-  height: 300px;
+  height: auto;
     .ani {
       animation: rotate 1s;
       animation-fill-mode: forwards;
@@ -239,7 +239,7 @@ export default {
       }
       .el-card {
         width: 400px;
-        height: 300px;
+        height: auto;
         .display_result{
           margin-left: 195px;
           color: rgb(118, 164, 248);
