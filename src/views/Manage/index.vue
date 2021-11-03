@@ -16,7 +16,7 @@
                 </div>
               </template>
                 <div v-for="select in item.select" :key="-select.num">
-                  {{select.selectionText}} {{select.count}}票
+                  {{select.selectionText}} <span class="ticket">{{select.count}}票</span>
                   <el-progress :percentage="item.count == 0 ? 0 : Number((select.count / item.count * 100).toFixed(2))" :format="format" />
                 </div>
                 <div class="block_rotate">
@@ -67,13 +67,18 @@
     min-height: $min_height;
     margin-left: $main_margin_left;
     &:deep(.el-collapse-item__header){
-      font-size:26px!important;
+      font-size:20px!important;
+    }
+    .ticket {
+      float: right;
+      padding-right: 60px;
+      font-weight: 300;
     }
     .card-header{
-      font-size:25px;
+      font-size:18px;
     }
     &:deep(.el-card__body){
-      font-size:20px;
+      font-size:15px;
     }
   }
   </style>

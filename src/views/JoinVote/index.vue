@@ -33,7 +33,7 @@
                 </div>
               </template>
                 <div v-for="select in voteData.select" :key="-select.num">
-                  {{select.selectionText}} {{select.count}}票
+                  {{select.selectionText}} <span class="ticket">{{select.count}}票</span>
                   <el-progress :percentage="voteData.maxCount == 0 ? 0 : Number((select.count / voteData.maxCount * 100).toFixed(2))" :format="format" />
                 </div>
                 <div class="block_rotate">
@@ -175,8 +175,8 @@ export default {
     .right-picture {
        position:absolute;
         top:250px;
-        left:900px;
-        width: 450px;
+        left:790px;
+        width: 430px;
         height: 250px;
         background-size: 100% 100%;      
       }
@@ -228,12 +228,10 @@ export default {
         left: 0;
       }
       .front {
-        background-color: yellow;
         transform: rotateX(0deg),
 
       }
       .back {
-        background-color: skyblue;
         transform: rotateX(180deg),
 
       }
@@ -251,14 +249,24 @@ export default {
           
         }
         .rotate{
-          margin-left:150px;
+          margin-left:200px;
           color: rgb(118, 164, 248);
           cursor:pointer;
-          font-size:25px;
+          font-size:18px;
         }
       }
       .el-radio {
         display: block;
+      }
+      .ticket {
+        float: right;
+        padding-right: 60px;
+        font-weight: 300;
+      }
+
+      .el-progress {
+        margin-top: 10px;
+        margin-bottom: 5px;
       }
     }
 

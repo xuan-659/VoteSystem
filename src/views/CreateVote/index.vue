@@ -126,7 +126,7 @@ export default {
         const data = await store.dispatch('addVote', form);
         const username = data.username;
         const id = data.id;
-        ElMessageBox.alert(`http://47.113.227.55:8080/joinVote/${username}/${id}`, '复制分享链接', {
+        ElMessageBox.alert(`http://47.113.227.55/joinVote/${username}/${id}`, '复制分享链接', {
         confirmButtonText: 'OK',
         callback: (action) => {
           // ElMessage({
