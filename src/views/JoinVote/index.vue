@@ -110,10 +110,10 @@ export default {
       loading.value = false 
     }
     const vote = async () => {
-      if(!localStorage.getItem('voted')) {
+      if(!localStorage.getItem(`voted${voteData.id}`)) {
         submitForm.id = voteData.id;
         submitForm.username = voteData.username;
-        localStorage.setItem('voted', true);
+        localStorage.setItem(`voted${voteData.id}`, true);
         await store.dispatch('vote', submitForm);
         voteData.select[submitForm.num - 1].count++;
         voteData.maxCount++;
