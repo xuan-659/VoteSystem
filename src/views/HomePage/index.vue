@@ -5,7 +5,7 @@
         <h1>快速安排投票！</h1>
         <el-input v-model="title" placeholder="输入您的投票主题" />
         <el-button type="primary" @click="create">创建</el-button>
-        <h3>Harmony是安排多人投票的最快方式。并且完全免费！</h3>
+        <h3>Harmony是安排多人投票的最快方式。并且简洁高效！</h3>
       </div>
       <div class="main-right">
          <el-image
