@@ -56,6 +56,7 @@ export default {
       .harmony-logo {
         height: 40px;
         margin-top: 10px;
+        width: 146px;
       }
 
       .main-right {
